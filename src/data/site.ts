@@ -13,7 +13,7 @@ export const site = {
    * Home-page photo of me (path relative to /public). Leave empty to use the
    * karting photo instead.
    */
-  photo: '',
+  photo: 'images/me.jpg',
   institution: 'Western University',
   location: 'London, Ontario, Canada',
 
