@@ -11,19 +11,6 @@ import type { Media, Project } from './types';
  * state 'planned' / 'in-progress' for everything else.
  */
 
-const placeholderImage = (
-  placeholder: string,
-  slot: string,
-  caption?: string,
-  aspect: Media['aspect'] = '16/9',
-): Media => ({
-  alt: placeholder,
-  placeholder,
-  slot,
-  caption,
-  aspect,
-});
-
 /** A Soran Racing photo: 2000 px full size (lightbox) plus a 900 px copy for the grid. */
 const photo = (name: string, alt: string, caption?: string): Media => ({
   src: `images/soran-racing/${name}.jpg`,
@@ -124,22 +111,16 @@ const brakeBias: Project = {
         },
         {
           type: 'table',
-          caption: 'Requirements matrix (qualitative). Targets marked TBD are not yet defined.',
-          columns: ['ID', 'Requirement', 'Source', 'Target', 'Verification (planned)'],
+          caption: 'Requirements matrix (qualitative). Quantitative targets will be set as the design develops.',
+          columns: ['ID', 'Requirement', 'Source', 'Verification (planned)'],
           rows: [
-            ['R-01', 'Adjust front/rear bias by driving the existing Tilton cable adjuster', 'Project brief', 'TBD', 'Bench test'],
-            ['R-02', 'Package within the existing pedal box without interfering with pedal travel', 'Project brief', 'TBD', 'CAD clearance check'],
-            ['R-03', 'Provide position feedback of the adjuster setting', 'Project brief', 'TBD', 'Bench test'],
-            ['R-04', 'Leave the mechanical, driver-actuated hydraulic braking path unchanged', 'FSAE rules', '—', 'Design review'],
-            ['R-05', 'Define safe system behaviour on electrical power loss', 'Project brief', 'TBD', 'Fault-injection test'],
-            ['R-06', 'Integrate mechanical, electrical and firmware subsystems', 'Project brief', '—', 'Integration review'],
+            ['R-01', 'Adjust front/rear bias by driving the existing Tilton cable adjuster', 'Project brief', 'Bench test'],
+            ['R-02', 'Package within the existing pedal box without interfering with pedal travel', 'Project brief', 'CAD clearance check'],
+            ['R-03', 'Provide position feedback of the adjuster setting', 'Project brief', 'Bench test'],
+            ['R-04', 'Leave the mechanical, driver-actuated hydraulic braking path unchanged', 'FSAE rules', 'Design review'],
+            ['R-05', 'Define safe system behaviour on electrical power loss', 'Project brief', 'Fault-injection test'],
+            ['R-06', 'Integrate mechanical, electrical and firmware subsystems', 'Project brief', 'Integration review'],
           ],
-        },
-        {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'Pending',
-          text: 'Quantified targets — adjustment range, resolution, actuation time and torque margin — will be added once measured or derived.',
         },
       ],
     },
@@ -167,13 +148,6 @@ const brakeBias: Project = {
           visual: 'brake-bias-concept',
           caption:
             'Concept-level architecture described in the project brief: the actuator works through the existing cable adjuster, and the pedal-to-master-cylinder path is untouched. Component selections are not finalised.',
-        },
-        {
-          type: 'gallery',
-          items: [
-            placeholderImage('Pedal-box assembly photograph or CAD view', 'images/brake-bias/pedal-box-assembly.jpg', 'Existing pedal box and balance bar.', '4/3'),
-            placeholderImage('Mechanical sketch — cable adjuster interface', 'images/brake-bias/adjuster-interface-sketch.jpg', 'Interface between actuator and cable adjuster.', '4/3'),
-          ],
         },
       ],
     },
@@ -221,12 +195,6 @@ const brakeBias: Project = {
             '**Force distribution** — how load transfer (Eq. 1) shifts the ideal bias (Eq. 2) with deceleration.',
           ],
         },
-        {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'To be documented',
-          text: 'Findings and conclusions from this research will be added here as each topic is completed.',
-        },
       ],
     },
     {
@@ -255,20 +223,6 @@ const brakeBias: Project = {
             'Is absolute sensing required so the bias setting is known immediately after a power cycle?',
             'What resolution is meaningful relative to the adjuster’s travel per turn?',
             'How should the current setting be communicated to the driver?',
-          ],
-        },
-        {
-          type: 'table',
-          placeholder: true,
-          caption: 'Actuator comparison — candidates not yet selected.',
-          columns: ['Candidate', 'Type', 'Torque', 'Travel / resolution', 'Feedback', 'Mass', 'Notes'],
-          rows: [['—', '—', '—', '—', '—', '—', '—']],
-        },
-        {
-          type: 'gallery',
-          items: [
-            placeholderImage('Functional block diagram', 'images/brake-bias/functional-block-diagram.png', 'Detailed functional block diagram — controller, actuator, sensing and power.', '16/9'),
-            placeholderImage('Electrical schematic', 'images/brake-bias/electrical-schematic.png', 'Actuator drive and sensing schematic.', '16/9'),
           ],
         },
       ],
@@ -316,10 +270,15 @@ const brakeBias: Project = {
           ],
         },
         {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'Planned analysis',
-          text: 'Results of this analysis are not yet available and will be published here once completed.',
+          type: 'figure',
+          media: {
+            src: 'images/simulator/brake-bias-study.png',
+            alt: 'Three plots from the simulator: ideal front braking percentage rising with deceleration, maximum deceleration peaking near 70% front bias, and front and rear axle utilization at a fixed 60% front bias.',
+            caption: 'From the simulator’s straight-line brake-bias study (illustrative car parameters, not the Western Formula Racing car): the ideal front share rises with deceleration, so a fixed bias is ideal at only one deceleration, which is the case for an adjustable system.',
+            width: 2400,
+            height: 768,
+            aspect: '2400/768',
+          },
         },
         {
           type: 'related',
@@ -343,15 +302,6 @@ const brakeBias: Project = {
             { label: 'Electrical schematic', state: 'planned' },
             { label: 'Firmware design', state: 'planned' },
             { label: 'Validation plan and bench testing', state: 'planned' },
-          ],
-        },
-        {
-          type: 'gallery',
-          title: 'Design and test media',
-          items: [
-            placeholderImage('SolidWorks CAD screenshot — actuator assembly', 'images/brake-bias/cad-actuator-assembly.jpg', undefined, '16/9'),
-            placeholderImage('SolidWorks CAD screenshot — pedal-box integration', 'images/brake-bias/cad-pedal-box-integration.jpg', undefined, '16/9'),
-            placeholderImage('Testing results', 'images/brake-bias/test-results.png', undefined, '16/9'),
           ],
         },
       ],
