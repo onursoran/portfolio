@@ -1,12 +1,12 @@
 # Onur Kaan Soran
 
-**Engineering student at Western University** · Vehicle dynamics · Motorsport · Software
+**Engineering student at Western University** · Mechanical engineering · Vehicle dynamics · Motorsport · Software
 
 🌐 **Portfolio: [onursoran.github.io/portfolio](https://onursoran.github.io/portfolio/)**
 
-I’m an engineering student at Western University exploring the intersection of mechanical systems, vehicle dynamics and software. Through motorsport, computational modeling and engineering design projects, I apply technical concepts to practical engineering challenges.
+I’m an engineering student at Western University focused on mechanical engineering, exploring where mechanical systems, vehicle dynamics and software meet. Through motorsport, computational modeling and engineering design projects, I apply technical concepts to practical engineering challenges.
 
-I’m looking for engineering internships in **automotive, motorsport, aerospace and software**.
+I’m looking for internships in **mechanical engineering** (especially automotive, motorsport and aerospace) and **software**.
 
 ---
 

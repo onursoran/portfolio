@@ -6,9 +6,9 @@ export const site = {
   name: 'Onur Kaan Soran',
   shortName: 'OKS',
   title: 'Onur Kaan Soran — Engineering Portfolio',
-  role: 'Engineering Student | Vehicle Dynamics | Motorsport | Software Development',
+  role: 'Engineering Student | Mechanical Engineering | Vehicle Dynamics | Motorsport | Software Development',
   description:
-    'Engineering portfolio of Onur Kaan Soran, an engineering student at Western University working on vehicle dynamics, motorsport, brake systems and software.',
+    'Engineering portfolio of Onur Kaan Soran, an engineering student at Western University focused on mechanical engineering, working on vehicle dynamics, motorsport, brake systems and software.',
   institution: 'Western University',
   location: 'London, Ontario, Canada',
 
