@@ -4,7 +4,8 @@
  * images and milestones can be added by editing data files only.
  */
 
-export type AspectRatio = '16/9' | '4/3' | '3/2' | '1/1' | '21/9' | '3/4';
+/** Common ratios, or an exact "width/height" (e.g. '2080/1280') so plots are never cropped. */
+export type AspectRatio = '16/9' | '4/3' | '3/2' | '1/1' | '21/9' | '3/4' | `${number}/${number}`;
 
 export interface Media {
   /**

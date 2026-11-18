@@ -360,36 +360,51 @@ const brakeBias: Project = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* P-02 · Python Vehicle Dynamics Simulator                                    */
+/* P-02 · Vehicle Dynamics & Lap-Time Simulator                               */
 /* -------------------------------------------------------------------------- */
+
+/** A simulator figure, shown at its exact pixel ratio so the plot is never cropped. */
+const plot = (file: string, width: number, height: number, alt: string, caption: string): Media => ({
+  src: `images/simulator/${file}`,
+  alt,
+  caption,
+  width,
+  height,
+  aspect: `${width}/${height}`,
+});
 
 const simulator: Project = {
   slug: 'vehicle-dynamics-simulator',
   index: 'P-02',
-  title: 'Python Vehicle Dynamics Simulator',
+  title: 'Vehicle Dynamics & Lap-Time Simulator',
   category: 'Computational Modeling · Software',
   summary:
-    'A Python simulator modeling tire forces, friction-circle limits and bicycle-model vehicle dynamics to study how lateral grip demand reduces the longitudinal force available for braking and acceleration.',
+    'A Python lap-time simulator with a four-wheel vehicle model and combined tire-grip limits, built to compare braking strategies — fixed bias, passive valves and independent wheel braking — on synthetic tracks and real circuits such as Monza.',
   status: {
     label: 'Developed',
     tone: 'complete',
-    note: 'Source code and result figures are being prepared for publication.',
+    note: 'Source repository is currently private.',
   },
   role: 'Independent project — sole developer',
   timeline: 'Independent',
-  tags: ['Python', 'NumPy', 'Matplotlib', 'Vehicle dynamics', 'Tire modeling', 'Numerical optimization'],
+  tags: ['Python', 'NumPy', 'Matplotlib', 'Vehicle dynamics', 'Lap-time simulation', 'Brake systems', 'Unit testing'],
   cover: { kind: 'visual', visual: 'friction-circle', label: 'Friction-circle schematic' },
   /** Add the GitHub URL when the repository is public. */
   repoUrl: '',
+  stats: [
+    { value: '112', label: 'Automated tests' },
+    { value: '6', label: 'Braking systems compared' },
+    { value: '3', label: 'Real circuits' },
+  ],
   contributionSummary:
-    'Designed and implemented the simulator independently — tire models, vehicle model, parameter sweeps, optimization and visualization.',
+    'Designed and implemented the simulator independently — vehicle and tire models, equilibrium and lap-time solvers, braking-system models, a local browser app, plots and a 112-test suite.',
   contributions: [
-    'Designed and implemented the entire simulator independently in Python.',
-    'Modeled longitudinal and lateral tire forces using slip ratio and slip angle.',
-    'Implemented combined tire-force limits through a friction-circle constraint.',
-    'Built bicycle-model vehicle dynamics for steady-state cornering analysis.',
-    'Implemented numerical parameter sweeps and optimization of operating parameters with NumPy.',
-    'Produced engineering plots of the results with Matplotlib.',
+    'Designed and implemented the simulator independently in Python (about 3,200 lines plus tests).',
+    'Built a four-wheel vehicle model with longitudinal and lateral load transfer, aerodynamic downforce and combined tire-grip limits.',
+    'Wrote a quasi-steady equilibrium solver that balances forces and yaw moment at every point on the lap.',
+    'Implemented a closed-lap speed-profile solver for synthetic tracks and real circuit layouts (Monza, Montreal, Barcelona-Catalunya).',
+    'Modeled and compared six braking systems, including passive hydraulic valves and limited independent wheel braking.',
+    'Built a local browser app to run comparisons and play back laps, and a 112-test suite including analytical checks.',
   ],
   sections: [
     {
@@ -398,160 +413,177 @@ const simulator: Project = {
       blocks: [
         {
           type: 'paragraph',
-          text: 'A tire produces cornering force and braking or driving force from the same contact patch, and the total is limited by friction. The question the simulator investigates is simple to state: **as lateral force demand increases, how much longitudinal force is left for braking or acceleration?**',
+          text: 'A tire produces cornering force and braking force from the same contact patch, and the total is limited by friction. So the way braking force is shared between the four wheels matters most where a car is braking and turning at the same time. The question this simulator investigates: **over a full lap, how much does the braking strategy actually change lap time — and what does each strategy cost in steering and stability?**',
         },
         {
           type: 'paragraph',
-          text: 'That question sits underneath much of vehicle performance — how late a car can brake into a corner, how early it can accelerate out — and it is central to brake-bias design, where each axle’s braking capacity depends on how much grip it is already using. I built the simulator to answer it quantitatively rather than by feel, and to support the Western Formula Racing brake-bias project.',
+          text: 'It started as a study of the friction circle and brake bias in a straight line, and grew into a lap-time tool that compares conventional front/rear braking with passive valves and limited independent wheel braking. It supports my work on the Western Formula Racing brake-bias project.',
+        },
+      ],
+    },
+    {
+      id: 'capabilities',
+      title: 'What It Does',
+      blocks: [
+        {
+          type: 'list',
+          items: [
+            '**Tracks** — synthetic oval, technical loop, figure-eight and circle, plus approximate 2020 layouts of **Monza, Montreal and Barcelona-Catalunya** from the open TUM racetrack database, smoothed with a periodic cubic spline.',
+            '**Vehicle** — four-wheel load transfer, speed-dependent downforce, rear-wheel-drive force and power limits, steering and sideslip limits, and a check that the car body stays within the road corridor.',
+            '**Braking systems** — conventional two-master-cylinder braking, fixed passive valves on one wheel or one side, limited independent left/right assistance, and an experimental inside-rear “fiddle brake”.',
+            '**Car profiles** — an illustrative Formula Student car and a profile built from the Western Formula Racing 2026 design specification sheet.',
+            '**Outputs** — lap time, speed profile, steering demand, braking zones (light, medium, hard), CSV/JSON exports and plots, through either the command line or a local browser app.',
+          ],
         },
       ],
     },
     {
       id: 'mathematical-models',
-      title: 'Mathematical Models',
+      title: 'Vehicle and Tire Models',
       blocks: [
         {
           type: 'paragraph',
-          text: 'The simulator is built on standard vehicle-dynamics relations. Notation below follows common textbook form; implementation details are in the repository.',
+          text: 'Each tire’s lateral force rises linearly with slip angle and saturates at the friction limit. When a wheel is braking, the lateral force it can still produce is capped by the friction circle:',
         },
         {
           type: 'equation',
-          label: 'Eq. 1 — Slip ratio',
-          expression: 'κ = ( ω · R_{e} − V_{x} ) / V_{x}',
-          caption: 'ω — wheel angular speed, R_e — effective rolling radius, V_x — longitudinal wheel speed.',
+          label: 'Eq. 1 — Lateral capacity under braking',
+          expression: '| F_{y} | ≤ √( ( μ · F_{z} )^{2} − F_{x}^{2} )',
+          caption: 'F_x — longitudinal (braking) force, F_z — normal load, μ — friction coefficient.',
         },
-        {
-          type: 'equation',
-          label: 'Eq. 2 — Slip angles (bicycle model)',
-          expression: 'α_{f} = δ − arctan( ( v_{y} + a · r ) / v_{x} ),   α_{r} = − arctan( ( v_{y} − b · r ) / v_{x} )',
-          caption: 'δ — steer angle, r — yaw rate, a / b — CG to front / rear axle distances.',
-        },
-        {
-          type: 'equation',
-          label: 'Eq. 3 — Friction circle',
-          expression: '√( F_{x}^{2} + F_{y}^{2} ) ≤ μ · F_{z}',
-          caption: 'The combined tire force cannot exceed the friction limit for the given normal load.',
-        },
-        {
-          type: 'equation',
-          label: 'Eq. 4 — Available longitudinal force',
-          expression: 'F_{x,avail} = √( ( μ · F_{z} )^{2} − F_{y}^{2} )',
-          caption: 'Rearranging Eq. 3: the longitudinal capacity remaining for a given lateral demand.',
-        },
-        {
-          type: 'equation',
-          label: 'Eq. 5 — Steady-state cornering',
-          expression: 'm · V^{2} / R = F_{y,f} + F_{y,r},     a · F_{y,f} − b · F_{y,r} = 0',
-          caption: 'Lateral force balance and yaw-moment balance for the bicycle model in steady state.',
-        },
-      ],
-    },
-    {
-      id: 'simulation-architecture',
-      title: 'Simulation Architecture',
-      blocks: [
         {
           type: 'paragraph',
-          text: 'The simulator is organised as a pipeline: parameters flow through the tire and vehicle models, are constrained by the friction limit, and are evaluated across parameter grids before being plotted.',
+          text: 'Normal loads come from four-wheel longitudinal and lateral load transfer. In a straight line the axle loads are:',
         },
         {
-          type: 'pipeline',
-          steps: [
-            { title: 'Parameters', description: 'Vehicle and tire inputs: mass, geometry, friction coefficient, operating conditions.' },
-            { title: 'Tire model', description: 'Longitudinal and lateral force from slip ratio and slip angle.' },
-            { title: 'Combined limit', description: 'Friction-circle constraint on the combined tire force.' },
-            { title: 'Vehicle model', description: 'Bicycle model; steady-state cornering and longitudinal limits.' },
-            { title: 'Sweeps & optimization', description: 'Vectorised NumPy parameter sweeps and operating-point optimization.' },
-            { title: 'Visualization', description: 'Matplotlib plots of envelopes, characteristics and sweep results.' },
-          ],
+          type: 'equation',
+          label: 'Eq. 2 — Axle normal loads under braking',
+          expression: 'F_{z,front} = m·g·b/L + m·d·h/L,     F_{z,rear} = m·g·a/L − m·d·h/L',
+          caption: 'd — deceleration, h — CG height, a / b — CG to front / rear axle, L — wheelbase.',
         },
-        {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'Repository structure',
-          text: 'A module-level breakdown of the code will be added when the repository is published.',
-        },
-      ],
-    },
-    {
-      id: 'tire-force-modeling',
-      title: 'Tire Force Modeling',
-      blocks: [
         {
           type: 'paragraph',
-          text: 'Tire force rises with slip — slip ratio for longitudinal force, slip angle for lateral force — before saturating at the friction limit. The simulator models both characteristics and then applies the combined-force limit, so a tire that is cornering hard has correspondingly less longitudinal capacity.',
+          text: 'At every point on the lap, a solver adjusts brake or drive actuation, steering angle and sideslip until the forces and yaw moment balance:',
         },
         {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'Model formulation',
-          text: 'The specific tire model formulation and its parameters will be documented here alongside the published source code.',
+          type: 'equation',
+          label: 'Eq. 3 — Force and yaw equilibrium',
+          expression: 'Σ F_{x} = m·a_{x},     Σ F_{y} = m·a_{y},     Σ ( x·F_{y} − y·F_{x} ) = I_{z}·ṙ',
+          caption: 'Summed over all four tires in body coordinates; I_z — yaw inertia, ṙ — yaw acceleration.',
         },
-        {
-          type: 'gallery',
-          items: [
-            placeholderImage('Tire-force characteristic — longitudinal force vs slip ratio', 'images/simulator/tire-fx-vs-slip-ratio.png', undefined, '4/3'),
-            placeholderImage('Tire-force characteristic — lateral force vs slip angle', 'images/simulator/tire-fy-vs-slip-angle.png', undefined, '4/3'),
-          ],
-        },
-      ],
-    },
-    {
-      id: 'numerical-optimization',
-      title: 'Numerical Optimization',
-      blocks: [
         {
           type: 'paragraph',
-          text: 'Rather than evaluating single operating points, the simulator sweeps parameters across numerical ranges using vectorised NumPy arrays and identifies the operating parameters that perform best within the friction-circle constraint.',
+          text: 'This matters for braking strategies: any yaw moment from braking one wheel harder than the other must be balanced by the tires’ lateral forces and steering. It is not counted as a free gain.',
         },
+        { type: 'demo', demo: 'friction-circle' },
         {
           type: 'code',
           language: 'python',
-          illustrative: true,
-          caption: 'Illustrative example of the vectorised approach — not an excerpt from the repository.',
-          code: `import numpy as np
+          caption: 'Excerpt from tire_model.py: scaling a requested force back onto the friction circle.',
+          code: `def apply_friction_circle(req_longitudinal_force_n, req_lateral_force_n, maximum_tire_force_n):
+    combined_force_magnitude_n = math.hypot(req_lateral_force_n, req_longitudinal_force_n)
+    if combined_force_magnitude_n <= maximum_tire_force_n:
+        return req_longitudinal_force_n, req_lateral_force_n
 
-def available_longitudinal_force(fy, mu, fz):
-    """Longitudinal capacity left for a given lateral demand (friction circle)."""
-    limit = mu * fz
-    return np.sqrt(np.clip(limit**2 - fy**2, 0.0, None))
+    scale_factor = maximum_tire_force_n / combined_force_magnitude_n
 
-# Evaluate a full sweep of lateral demand in one vectorised call
-fy = np.linspace(0.0, 1.0, 201)          # normalised lateral demand
-fx = available_longitudinal_force(fy, mu=1.0, fz=1.0)`,
+    actual_longitudinal_force_n = (req_longitudinal_force_n * scale_factor)
+    actual_lateral_force_n = (req_lateral_force_n * scale_factor)
+
+    return actual_longitudinal_force_n, actual_lateral_force_n`,
+        },
+      ],
+    },
+    {
+      id: 'lap-time-solver',
+      title: 'Lap-Time Solver',
+      blocks: [
+        {
+          type: 'pipeline',
+          steps: [
+            { title: 'Track geometry', description: 'Spline centerline, curvature and its rate of change, road width.' },
+            { title: 'Corner speed limits', description: 'Highest speed with a feasible equilibrium at each point.' },
+            { title: 'Braking pass', description: 'Backward pass: the latest braking each corner allows.' },
+            { title: 'Acceleration pass', description: 'Forward pass: drive force, power and grip limits.' },
+            { title: 'Closed-lap check', description: 'Every segment re-checked at start, midpoint and end.' },
+            { title: 'Analysis', description: 'Lap time, braking zones, steering demand, plots and exports.' },
+          ],
         },
         {
-          type: 'callout',
-          tone: 'placeholder',
-          title: 'To be documented',
-          text: 'Objective function, decision variables and solution method will be described here with the published code.',
+          type: 'equation',
+          label: 'Eq. 4 — Segment acceleration and time',
+          expression: 'a = ( V_{end}^{2} − V_{start}^{2} ) / ( 2·Δs ),     Δt = 2·Δs / ( V_{start} + V_{end} ),     T_{lap} = Σ Δt',
+          caption: 'A lap time is returned only if the whole closed profile, including the start/finish seam, passes the equilibrium checks.',
         },
       ],
     },
     {
       id: 'results-visualization',
-      title: 'Results and Visualization',
+      title: 'Results',
       blocks: [
         {
           type: 'paragraph',
-          text: 'The interactive demonstration below shows the core relationship the simulator studies. It is a simplified browser illustration — the published figures from the Python model will appear in the gallery underneath.',
+          text: 'Monza with the illustrative Formula Student car (fixed driving line, 12 m road). The six braking systems produce nearly identical laps; the differences come only from the braking zones.',
         },
-        { type: 'demo', demo: 'friction-circle' },
         {
-          type: 'gallery',
-          title: 'Simulation figures',
-          items: [
-            placeholderImage('Friction-circle plot', 'images/simulator/friction-circle.png', undefined, '4/3'),
-            placeholderImage('Cornering-performance graph', 'images/simulator/cornering-performance.png', undefined, '4/3'),
-            placeholderImage('Longitudinal acceleration envelope', 'images/simulator/longitudinal-envelope.png', undefined, '4/3'),
-            placeholderImage('Parameter-sweep results', 'images/simulator/parameter-sweep.png', undefined, '4/3'),
-            placeholderImage('Code screenshot', 'images/simulator/code-screenshot.png', undefined, '4/3'),
+          type: 'table',
+          caption: 'Monza (2020 layout), illustrative car, 60% front braking preference. Regenerated from the current code.',
+          columns: ['Braking system', 'Lap time', 'vs conventional'],
+          rows: [
+            ['Independent 50% assistance', '236.818 s', '−0.091 s'],
+            ['Conventional front/rear', '236.909 s', '—'],
+            ['Rear-left valve', '236.926 s', '+0.017 s'],
+            ['Rear-right valve', '236.938 s', '+0.029 s'],
+            ['Fixed-left valves', '237.033 s', '+0.124 s'],
+            ['Fixed-right valves', '237.052 s', '+0.143 s'],
           ],
         },
         {
           type: 'callout',
-          tone: 'note',
-          text: 'No numerical results are presented until the figures from the Python model are published.',
+          tone: 'caution',
+          title: 'How to read these numbers',
+          text: 'These are comparative research estimates from a quasi-steady model with assumed tire and brake parameters, not predicted real lap times. Differences of a tenth of a second over a 237-second lap can be smaller than the uncertainty from tire, hardware and driver assumptions.',
+        },
+        {
+          type: 'figure',
+          media: plot('monza-lap-comparison.png', 2080, 1280, 'Four plots for Monza: the track map, speed profiles of the six braking systems, cumulative time difference against conventional braking, and steering demand along the lap.', 'Monza lap comparison: track, speed profile, time difference against conventional braking, and steering demand.'),
+        },
+        {
+          type: 'figure',
+          media: plot('monza-braking-zones.png', 2080, 800, 'Monza track map colored by braking intensity, next to a plot of deceleration along the lap for each braking system.', 'Braking zones at Monza, classified as light (below 0.3 g), medium or hard (0.7 g and above).'),
+        },
+      ],
+    },
+    {
+      id: 'braking-studies',
+      title: 'Braking Studies',
+      blocks: [
+        {
+          type: 'paragraph',
+          text: 'Before the lap model, two focused studies looked at single operating points. The straight-line study finds the front braking fraction that uses both axles’ grip equally; the four-wheel study shows how much braking is available while cornering under different allocation strategies.',
+        },
+        {
+          type: 'figure',
+          media: plot('brake-bias-study.png', 2400, 768, 'Three plots: ideal front braking percentage rising with deceleration, maximum deceleration peaking near 70% front bias, and front and rear axle utilization at a fixed 60% front bias.', 'Straight-line brake bias: the ideal front share rises with deceleration, so a fixed bias is ideal at only one deceleration.'),
+        },
+        {
+          type: 'figure',
+          media: plot('four-wheel-study.png', 2560, 880, 'Three plots: highest feasible braking deceleration against lateral acceleration for four strategies, wheel normal loads in a left turn, and the achievable yaw-moment range.', 'Braking while cornering: available deceleration falls as lateral demand rises; independent wheel braking adds capacity but also yaw moment that must be controlled.'),
+        },
+      ],
+    },
+    {
+      id: 'verification',
+      title: 'Verification',
+      blocks: [
+        {
+          type: 'list',
+          items: [
+            '**112 automated tests**, all passing: an analytical constant-radius circle lap, force and yaw closure, load conservation, and acceleration, braking and closed-lap constraints.',
+            '**Consistency checks**: zero assistance reproduces the conventional baseline exactly, and mirrored tracks with swapped valves give matching results.',
+            '**Result audit**: a validation script re-checks exported laps against the current source fingerprint and declared limits.',
+            '**Mesh refinement**: tracks re-run at 2 m, 1 m and 0.5 m spacing to check numerical sensitivity.',
+          ],
         },
       ],
     },
@@ -561,7 +593,7 @@ fx = available_longitudinal_force(fy, mu=1.0, fz=1.0)`,
       blocks: [
         {
           type: 'paragraph',
-          text: 'Brake bias decides how total braking force is divided between axles; the friction circle decides how much longitudinal force each axle can actually use. Combining the two shows why a fixed bias can only be ideal at one operating condition — and why an adjustable system is useful when load transfer and cornering demand change through a lap.',
+          text: 'The straight-line study shows why a fixed bias can only be ideal at one deceleration, and the lap model shows how small, and how track-dependent, the gains from smarter brake allocation can be. Both feed directly into the requirements for an adjustable brake-bias system.',
         },
         {
           type: 'related',
@@ -574,24 +606,25 @@ fx = available_longitudinal_force(fy, mu=1.0, fz=1.0)`,
       id: 'limitations',
       title: 'Limitations and Future Improvements',
       blocks: [
-        { type: 'paragraph', text: '**Limitations of the current modeling approach**' },
+        { type: 'paragraph', text: '**Limitations of the current model**' },
         {
           type: 'list',
           items: [
-            'The bicycle model combines the left and right tires of each axle, so lateral load transfer is not represented.',
-            'Steady-state analysis does not capture transient yaw or weight-transfer dynamics.',
-            'A circular friction limit treats longitudinal and lateral grip as equal; real tires are closer to an ellipse.',
-            'The model has not been validated against measured vehicle or tire data.',
+            'Quasi-steady: each point is a balanced operating state, so transient roll, sideslip and yaw are not integrated over the lap.',
+            'Linear, saturating tire model with no load sensitivity; it can hold a saturated force but does not simulate a locked wheel.',
+            'Fixed driving line on a flat track (no elevation or banking), not an optimized racing line.',
+            'Brake hydraulics are idealized: no compliance, hysteresis, delay or temperature effects.',
+            'Not validated against measured car or tire data.',
           ],
         },
         { type: 'paragraph', text: '**Candidate improvements**' },
         {
           type: 'list',
           items: [
-            'Four-wheel model with lateral and longitudinal load transfer.',
-            'Transient simulation by numerically integrating the equations of motion.',
-            'Friction-ellipse or empirical combined-slip tire model.',
-            'Validation against test data when available.',
+            'Transient simulation by integrating the yaw and sideslip states through the lap.',
+            'Nonlinear tire model with load sensitivity, fitted to tire data.',
+            'Racing-line optimization instead of a fixed centerline.',
+            'Validation against data logged on the Western Formula Racing car.',
           ],
         },
       ],
@@ -606,7 +639,7 @@ fx = available_longitudinal_force(fy, mu=1.0, fz=1.0)`,
             {
               label: 'Source code on GitHub',
               href: '',
-              description: 'Repository link will be added when the code is published.',
+              description: 'The repository is currently private.',
             },
           ],
         },
