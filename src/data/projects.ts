@@ -801,7 +801,7 @@ const soranRacing: Project = {
             photo('karting-04', 'Onur Kaan Soran in kart number 301 cornering, with another kart and the paddock buildings in the background.', 'Onur Kaan Soran · #301'),
             photo('karting-01', 'Nicolas Hulley in kart number 399 cornering in front of a red-and-black tyre wall, with another kart close behind.', 'Nicolas Hulley · #399'),
             photo('karting-02', 'Stanley Houtorski in kart number 343 turning into a corner past red-and-white kerbs.', 'Stanley Houtorski · #343'),
-            photo('karting-03', 'Stefano Rea, in the pink-visored helmet, racing wheel to wheel with another kart through a corner.', 'Stefano Rea (pink helmet)'),
+            photo('karting-03', 'Stefano Rea in kart number 255, racing wheel to wheel with another kart through a corner.', 'Stefano Rea · #255'),
             {
               src: 'images/soran-racing/results-01.jpg',
               alt: 'Stefano Rea smiling on the podium holding a trophy after finishing second.',
