@@ -33,8 +33,8 @@ export function Header() {
     <header className={`site-header ${scrolled || open ? 'is-scrolled' : ''}`}>
       <div className="container site-header__inner">
         <Link to="/" className="brand" aria-label={`${site.name}, home`}>
-          <span className="brand__mark mono" aria-hidden="true">
-            {site.shortName}
+          <span className="brand__mark" aria-hidden="true">
+            🏎️
           </span>
           <span className="brand__name">{site.name}</span>
         </Link>
@@ -51,7 +51,7 @@ export function Header() {
             <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
           </button>
           <ul id="primary-nav" className={`site-nav__list ${open ? 'is-open' : ''}`}>
-            {navigation.map((item, i) => (
+            {navigation.map((item) => (
               <li key={item.id}>
                 <Link
                   to={{ pathname: '/', hash: `#${item.id}` }}
@@ -59,9 +59,6 @@ export function Header() {
                   aria-current={active === item.id ? 'location' : undefined}
                   onClick={() => setOpen(false)}
                 >
-                  <span className="site-nav__index mono" aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
                   {item.label}
                 </Link>
               </li>

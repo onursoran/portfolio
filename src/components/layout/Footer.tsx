@@ -16,8 +16,8 @@ export function Footer() {
       <div className="container site-footer__inner">
         <div>
           <p className="site-footer__name">{site.name}</p>
-          <p className="site-footer__meta mono">
-            {site.institution} · {site.location}
+          <p className="site-footer__meta">
+            Made by me in {site.location} ✌️
           </p>
         </div>
         {links.length > 0 && (
@@ -37,8 +37,8 @@ export function Footer() {
           </ul>
         )}
         <div className="site-footer__end">
-          <p className="site-footer__meta mono">© {year} {site.name}</p>
-          <a href="#top" className="site-footer__top mono">
+          <p className="site-footer__meta">© {year} {site.name}</p>
+          <a href="#top" className="site-footer__top">
             Back to top <ArrowUp size={13} aria-hidden="true" />
           </a>
         </div>

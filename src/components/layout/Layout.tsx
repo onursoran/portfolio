@@ -2,7 +2,6 @@ import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './Footer';
 import { Header } from './Header';
-import { prefersReducedMotion } from '../../lib/hooks';
 
 /** Scrolls to hash targets, resets scroll on navigation, and moves focus for screen readers. */
 function ScrollManager() {
@@ -19,7 +18,7 @@ function ScrollManager() {
       const scroll = (attempt = 0) => {
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({ behavior: prefersReducedMotion() || pathChanged ? 'auto' : 'smooth' });
+          el.scrollIntoView({ behavior: 'auto' });
         } else if (attempt < 10) {
           window.setTimeout(() => scroll(attempt + 1), 50);
         }

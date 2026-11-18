@@ -229,9 +229,7 @@ export function BlockRenderer({ block }: { block: Block }) {
       if (!project) return null;
       return (
         <Link to={`/projects/${project.slug}`} className="related">
-          <span className="related__meta mono">
-            {project.index} · {project.category}
-          </span>
+          <span className="related__meta">{project.category}</span>
           <span className="related__title">{project.title}</span>
           <span className="related__text">{block.text}</span>
           <ArrowRight size={16} aria-hidden="true" className="related__arrow" />

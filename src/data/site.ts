@@ -9,6 +9,11 @@ export const site = {
   role: 'Engineering Student | Mechanical Engineering | Vehicle Dynamics | Motorsport | Software Development',
   description:
     'Engineering portfolio of Onur Kaan Soran, an engineering student at Western University focused on mechanical engineering, working on vehicle dynamics, motorsport, brake systems and software.',
+  /**
+   * Home-page photo of me (path relative to /public). Leave empty to use the
+   * karting photo instead.
+   */
+  photo: '',
   institution: 'Western University',
   location: 'London, Ontario, Canada',
 

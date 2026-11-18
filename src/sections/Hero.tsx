@@ -1,37 +1,31 @@
 import { ArrowRight, Mail } from 'lucide-react';
 import { hero } from '../data/content';
 import { site } from '../data/site';
+import { asset, isSet } from '../lib/asset';
 import { Button } from '../components/ui/Button';
 import { GitHubIcon, LinkedInIcon } from '../components/ui/BrandIcons';
-import { FrictionCircleSchematic } from '../components/visuals/FrictionCircleSchematic';
+
+/** My own photo if one is set in site.ts; otherwise the #301 karting photo. */
+const KARTING_PHOTO = 'images/soran-racing/karting-04-900.jpg';
 
 export function Hero() {
-  const roles = site.role.split('|').map((r) => r.trim());
+  const hasPortrait = isSet(site.photo);
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero__grid" aria-hidden="true" />
       <div className="container hero__inner">
         <div className="hero__content">
-          <p className="eyebrow mono">{hero.eyebrow}</p>
           <h1 id="hero-title" className="hero__title">
-            {site.name}
+            {hero.greeting} <span className="wave" aria-hidden="true">👋</span>
           </h1>
-          <p className="hero__roles">
-            <span className="sr-only">{site.role}</span>
-            {roles.map((r) => (
-              <span key={r} className="hero__role" aria-hidden="true">
-                {r}
-              </span>
-            ))}
-          </p>
+          <p className="hero__subtitle">{hero.subtitle}</p>
           <p className="hero__intro">{hero.intro}</p>
           <div className="hero__actions">
             <Button to={{ pathname: '/', hash: '#projects' }} variant="primary" iconRight={<ArrowRight size={16} aria-hidden="true" />}>
-              Explore Projects
+              See my projects
             </Button>
             <Button to={{ pathname: '/', hash: '#contact' }} icon={<Mail size={16} aria-hidden="true" />}>
-              Get in Touch
+              Say hi
             </Button>
             <Button href={site.links.github} external variant="ghost" icon={<GitHubIcon size={15} />} unavailableLabel="GitHub profile not yet configured">
               GitHub
@@ -42,23 +36,15 @@ export function Hero() {
           </div>
         </div>
 
-        <figure className="hero__visual">
-          <FrictionCircleSchematic variant="hero" />
-          <figcaption className="hero__caption mono">
-            The friction circle — the combined tire-force limit at the centre of my simulator and brake-bias work.
-          </figcaption>
+        <figure className={`hero__photo ${hasPortrait ? 'hero__photo--portrait' : ''}`}>
+          <img
+            src={asset(hasPortrait ? site.photo : KARTING_PHOTO)}
+            alt={hasPortrait ? `Photo of ${site.name}` : `${site.name} racing kart number 301`}
+            width={hasPortrait ? 400 : 900}
+            height={hasPortrait ? 400 : 600}
+          />
+          {!hasPortrait && <figcaption className="hero__note">{hero.photoNote}</figcaption>}
         </figure>
-      </div>
-
-      <div className="container">
-        <dl className="hero__meta">
-          {hero.meta.map((m) => (
-            <div key={m.label}>
-              <dt className="mono">{m.label}</dt>
-              <dd>{m.value}</dd>
-            </div>
-          ))}
-        </dl>
       </div>
     </section>
   );

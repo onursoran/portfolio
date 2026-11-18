@@ -46,7 +46,7 @@ const brakeBias: Project = {
   organization: 'Western Formula Racing',
   category: 'Mechatronics · Brake Systems',
   summary:
-    'Research and system design for an electromechanical brake-bias adjuster that drives the car’s existing Tilton cable adjuster — integrating mechanical, electrical and firmware components within the current pedal-box packaging.',
+    'Designing a small motorized adjuster that changes the car’s brake bias by turning the existing Tilton cable adjuster. It has to fit inside the current pedal box and never get in the way of the brakes themselves.',
   status: {
     label: 'In progress',
     tone: 'active',
@@ -56,7 +56,7 @@ const brakeBias: Project = {
   context: 'Western Formula Racing · 2027 Recruitment Project',
   timeline: 'Ongoing',
   tags: ['Mechatronics', 'Brake systems', 'Formula SAE', 'Actuator selection', 'Position feedback', 'Vehicle dynamics'],
-  cover: { kind: 'visual', visual: 'brake-bias-concept', label: 'Concept-level architecture' },
+  cover: { kind: 'emoji', emoji: '🛑', color: 'peach' },
   contributionSummary:
     'Researching actuator selection, position feedback, braking configurations and FSAE rule compliance to define the system requirements and concept.',
   contributions: [
@@ -329,7 +329,7 @@ const simulator: Project = {
   title: 'Vehicle Dynamics & Lap-Time Simulator',
   category: 'Computational Modeling · Software',
   summary:
-    'A Python lap-time simulator with a four-wheel vehicle model and combined tire-grip limits, built to compare braking strategies — fixed bias, passive valves and independent wheel braking — on synthetic tracks and real circuits such as Monza.',
+    'A Python simulator that drives a car around a track (even real ones like Monza) to compare braking setups: fixed bias, passive valves, and braking each wheel on its own.',
   status: {
     label: 'Developed',
     tone: 'complete',
@@ -338,7 +338,7 @@ const simulator: Project = {
   role: 'Independent project — sole developer',
   timeline: 'Independent',
   tags: ['Python', 'NumPy', 'Matplotlib', 'Vehicle dynamics', 'Lap-time simulation', 'Brake systems', 'Unit testing'],
-  cover: { kind: 'visual', visual: 'friction-circle', label: 'Friction-circle schematic' },
+  cover: { kind: 'emoji', emoji: '📈', color: 'sky' },
   repoUrl: 'https://github.com/onursoran/vehicle-laptime-simulator',
   stats: [
     { value: '100+', label: 'Automated tests' },
@@ -607,12 +607,21 @@ const soranRacing: Project = {
   title: 'Soran Racing',
   category: 'Motorsport · Leadership',
   summary:
-    'Founded and lead a competitive kart racing team competing in Canadian regional and national championships — building the team, securing sponsorship and coordinating race operations.',
+    'The kart racing team I started and run. We race in Canadian regional and national championships, and I handle the team, the sponsors and the race-weekend planning.',
   status: { label: 'Active', tone: 'ongoing' },
   role: 'Founder & Team Principal',
   context: 'Canadian regional and national karting championships',
   tags: ['Team leadership', 'Sponsorship', 'Race operations', 'Performance review', 'Karting'],
-  cover: { kind: 'visual', visual: 'soran-racing-stats', label: 'Team at a glance' },
+  cover: {
+    kind: 'image',
+    media: {
+      src: 'images/soran-racing/team-01.jpg',
+      alt: 'The Soran Racing team kneeling in front of their karts in the paddock.',
+      width: 940,
+      height: 627,
+      aspect: '3/2',
+    },
+  },
   stats: [
     { value: '5', label: 'Drivers' },
     { value: '$15,000+', label: 'Sponsorship secured' },

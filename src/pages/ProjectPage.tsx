@@ -8,7 +8,7 @@ import { useActiveSection, usePageMeta } from '../lib/hooks';
 import { BlockRenderer } from '../components/case-study/BlockRenderer';
 import { Button } from '../components/ui/Button';
 import { GitHubIcon } from '../components/ui/BrandIcons';
-import { StatRow, StatusBadge, TagList } from '../components/ui/Primitives';
+import { StatusBadge, TagList } from '../components/ui/Primitives';
 import { ProjectCover } from '../components/visuals/ProjectVisual';
 import NotFoundPage from './NotFoundPage';
 
@@ -17,17 +17,17 @@ function TableOfContents({ project }: { project: Project }) {
   const active = useActiveSection(['contributions', ...ids]);
   return (
     <nav className="toc" aria-label="On this page">
-      <p className="toc__title mono">On this page</p>
+      <p className="toc__title">On this page</p>
       <ol>
         <li>
           <a href="#contributions" className={active === 'contributions' ? 'is-active' : ''}>
-            <span className="mono">00</span> My contributions
+            What I did
           </a>
         </li>
-        {project.sections.map((s, i) => (
+        {project.sections.map((s) => (
           <li key={s.id}>
             <a href={`#${s.id}`} className={active === s.id ? 'is-active' : ''} aria-current={active === s.id ? 'location' : undefined}>
-              <span className="mono">{String(i + 1).padStart(2, '0')}</span> {s.title}
+              {s.title}
             </a>
           </li>
         ))}
@@ -44,13 +44,13 @@ function ProjectPager({ project }: { project: Project }) {
   return (
     <nav className="pager container" aria-label="More projects">
       <Link to={`/projects/${prev.slug}`} className="pager__link">
-        <span className="mono muted">
+        <span className="muted">
           <ArrowLeft size={13} aria-hidden="true" /> Previous
         </span>
         <span className="pager__title">{prev.title}</span>
       </Link>
       <Link to={`/projects/${next.slug}`} className="pager__link pager__link--next">
-        <span className="mono muted">
+        <span className="muted">
           Next <ArrowRight size={13} aria-hidden="true" />
         </span>
         <span className="pager__title">{next.title}</span>
@@ -78,12 +78,8 @@ function CaseStudy({ project }: { project: Project }) {
           </Link>
           <div className="case-hero__grid">
             <div>
-              <div className="project-card__meta">
-                <span className="mono accent">{project.index}</span>
-                <span className="mono muted">{project.category}</span>
-                <StatusBadge status={project.status} />
-              </div>
-              {project.organization && <p className="case-hero__org mono">{project.organization}</p>}
+              <StatusBadge status={project.status} />
+              {project.organization && <p className="case-hero__org">{project.organization}</p>}
               <h1 className="case-hero__title">{project.title}</h1>
               <p className="case-hero__summary">{project.summary}</p>
               <TagList tags={project.tags} />
@@ -102,12 +98,11 @@ function CaseStudy({ project }: { project: Project }) {
           <dl className="case-facts">
             {facts.map((f) => (
               <div key={f.label}>
-                <dt className="mono">{f.label}</dt>
+                <dt>{f.label}</dt>
                 <dd>{f.value}</dd>
               </div>
             ))}
           </dl>
-          {project.stats && <StatRow items={project.stats} size="lg" />}
         </div>
       </header>
 
@@ -118,7 +113,7 @@ function CaseStudy({ project }: { project: Project }) {
         <div className="case-body__content">
           <section id="contributions" className="case-section contributions" aria-labelledby="contributions-title">
             <h2 id="contributions-title" className="case-section__title">
-              <span className="mono accent">00</span> My contributions
+              What I did
             </h2>
             <ul className="prose-list prose-list--check">
               {project.contributions.map((c) => (
@@ -127,10 +122,10 @@ function CaseStudy({ project }: { project: Project }) {
             </ul>
           </section>
 
-          {project.sections.map((section, i) => (
+          {project.sections.map((section) => (
             <section key={section.id} id={section.id} className="case-section" aria-labelledby={`${section.id}-title`}>
               <h2 id={`${section.id}-title`} className="case-section__title">
-                <span className="mono accent">{String(i + 1).padStart(2, '0')}</span> {section.title}
+                {section.title}
               </h2>
               <div className="case-section__blocks">
                 {section.blocks.map((block, b) => (

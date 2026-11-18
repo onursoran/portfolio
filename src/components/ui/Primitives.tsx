@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import type { ProjectStatus } from '../../data/types';
-import { useRevealOnScroll } from '../../lib/hooks';
 
 export function StatusBadge({ status }: { status: ProjectStatus }) {
   return (
@@ -25,40 +24,26 @@ export function TagList({ tags, label = 'Technologies and topics' }: { tags: str
 }
 
 interface SectionHeadingProps {
-  index: string;
-  label: string;
   title: string;
+  /** Small emoji shown before the title. */
+  emoji?: string;
   id?: string;
   intro?: ReactNode;
 }
 
-export function SectionHeading({ index, label, title, id, intro }: SectionHeadingProps) {
+export function SectionHeading({ title, emoji, id, intro }: SectionHeadingProps) {
   return (
     <header className="section-heading">
-      <p className="section-heading__label mono">
-        <span className="accent">{index}</span>
-        <span aria-hidden="true"> / </span>
-        {label}
-      </p>
       <h2 id={id} className="section-heading__title">
+        {emoji && (
+          <span className="section-heading__emoji" aria-hidden="true">
+            {emoji}
+          </span>
+        )}
         {title}
       </h2>
       {intro && <p className="section-heading__intro">{intro}</p>}
     </header>
-  );
-}
-
-/** Fades content in once when it scrolls into view. Disabled under reduced motion. */
-export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
-  const { ref, visible } = useRevealOnScroll<HTMLDivElement>();
-  return (
-    <div
-      ref={ref}
-      className={`reveal ${visible ? 'is-visible' : ''} ${className}`.trim()}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-    >
-      {children}
-    </div>
   );
 }
 

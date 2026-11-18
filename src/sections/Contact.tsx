@@ -4,7 +4,7 @@ import { contact } from '../data/content';
 import { site } from '../data/site';
 import { isSet } from '../lib/asset';
 import { GitHubIcon, LinkedInIcon } from '../components/ui/BrandIcons';
-import { Reveal, SectionHeading } from '../components/ui/Primitives';
+import { SectionHeading } from '../components/ui/Primitives';
 
 interface ContactRowProps {
   icon: ReactNode;
@@ -35,7 +35,7 @@ function ContactRow({ icon, label, value, href, display, external, copyable }: C
       <span className="contact-row__icon" aria-hidden="true">
         {icon}
       </span>
-      <span className="contact-row__label mono">{label}</span>
+      <span className="contact-row__label">{label}</span>
       {configured ? (
         <a href={href} className="contact-row__value" {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
           {display ?? value}
@@ -61,16 +61,14 @@ export function Contact() {
   return (
     <section id="contact" className="section section--alt" aria-labelledby="contact-title">
       <div className="container contact">
-        <Reveal>
-          <SectionHeading index="05" label="Contact" title="Get in touch" id="contact-title" intro={contact.intro} />
-        </Reveal>
-        <Reveal delay={80}>
+        <SectionHeading emoji="💌" title="Say hi!" id="contact-title" intro={contact.intro} />
+        <div>
           <ul className="contact-list">
             <ContactRow icon={<Mail size={18} />} label="Email" value={email} href={`mailto:${email}`} copyable />
             <ContactRow icon={<LinkedInIcon size={17} />} label="LinkedIn" value={linkedin} href={linkedin} display={stripProtocol(linkedin)} external />
             <ContactRow icon={<GitHubIcon size={17} />} label="GitHub" value={github} href={github} display={stripProtocol(github)} external />
           </ul>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

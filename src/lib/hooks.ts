@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { site } from '../data/site';
 
 /** Sets the document title and meta description for the current page. */
@@ -9,10 +9,6 @@ export function usePageMeta(title: string, description: string = site.descriptio
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
   }, [title, description]);
-}
-
-export function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /**
@@ -52,32 +48,4 @@ export function useActiveSection(ids: readonly string[], enabled = true): string
   }, [key, enabled]);
 
   return active;
-}
-
-/** Adds `is-visible` once an element scrolls into view (used for subtle reveals). */
-export function useRevealOnScroll<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (!('IntersectionObserver' in window) || prefersReducedMotion()) {
-      setVisible(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, visible };
 }

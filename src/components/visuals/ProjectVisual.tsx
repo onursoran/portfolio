@@ -42,6 +42,13 @@ export function ProjectCover({ cover, priority = false }: { cover: Cover; priori
   if (cover.kind === 'image') {
     return <Figure media={cover.media} showCaption={false} priority={priority} />;
   }
+  if (cover.kind === 'emoji') {
+    return (
+      <div className={`emoji-cover emoji-cover--${cover.color}`} aria-hidden="true">
+        <span>{cover.emoji}</span>
+      </div>
+    );
+  }
   return (
     <div className="cover-visual">
       <ProjectVisual visual={cover.visual} />

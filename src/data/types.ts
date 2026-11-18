@@ -31,9 +31,13 @@ export interface Media {
 /** Original, code-drawn visuals that can be used as covers or inline diagrams. */
 export type VisualId = 'brake-bias-concept' | 'friction-circle' | 'soran-racing-stats';
 
+export type PastelColor = 'peach' | 'mint' | 'sky' | 'butter' | 'lilac';
+
 export type Cover =
   | { kind: 'image'; media: Media }
-  | { kind: 'visual'; visual: VisualId; label: string };
+  | { kind: 'visual'; visual: VisualId; label: string }
+  /** A big emoji on a pastel tile. */
+  | { kind: 'emoji'; emoji: string; color: PastelColor };
 
 export type StatusTone = 'active' | 'complete' | 'ongoing' | 'planned';
 
