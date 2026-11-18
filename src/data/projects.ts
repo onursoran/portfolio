@@ -652,7 +652,7 @@ const soranRacing: Project = {
       blocks: [
         {
           type: 'paragraph',
-          text: 'Soran Racing is a competitive kart racing team I founded and lead as Team Principal. The team competes in Canadian regional and national karting championships, and my role covers the organisation behind the drivers: building the team, funding it, and making sure it operates well on race weekends.',
+          text: 'Soran Racing is a competitive kart racing team I founded and lead as Team Principal; Stanley Houtorski joined as co-founder. The team competes in Canadian regional and national karting championships, and my role covers the organisation behind the drivers: building the team, funding it, and making sure it operates well on race weekends.',
         },
         {
           type: 'links',
@@ -743,6 +743,11 @@ const soranRacing: Project = {
             proposalPage('sponsorship-packages', 'Package options page comparing Platinum, Gold and Bronze sponsorship tiers: logo size, digital media, banner, gear, paddock access and uniform placement.', 'Package options'),
             proposalPage('sponsorship-logo-locations', 'Race-suit diagrams from the front, side and back showing where Gold and Platinum sponsor logos are placed.', 'Logo locations on race suits'),
           ],
+        },
+        {
+          type: 'callout',
+          tone: 'note',
+          text: 'The 2025 proposal lists four drivers. The team has since added a fifth driver for the current season.',
         },
       ],
     },
