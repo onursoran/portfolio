@@ -24,6 +24,17 @@ const placeholderImage = (
   aspect,
 });
 
+/** A Soran Racing photo: 2000 px full size (lightbox) plus a 900 px copy for the grid. */
+const photo = (name: string, alt: string): Media => ({
+  src: `images/soran-racing/${name}.jpg`,
+  srcSet: `images/soran-racing/${name}-900.jpg 900w, images/soran-racing/${name}.jpg 2000w`,
+  sizes: '(min-width: 900px) 33vw, 100vw',
+  alt,
+  width: 2000,
+  height: 1333,
+  aspect: '3/2',
+});
+
 /* -------------------------------------------------------------------------- */
 /* P-01 · Western Formula Racing — Electromechanical Brake Bias System         */
 /* -------------------------------------------------------------------------- */
@@ -701,12 +712,13 @@ const soranRacing: Project = {
         {
           type: 'gallery',
           items: [
-            placeholderImage('Karting photograph', 'images/soran-racing/karting-01.jpg', undefined, '3/2'),
+            photo('karting-01', 'Kart number 399 cornering in front of a red-and-black tyre wall, with another kart close behind.'),
+            photo('karting-02', 'Kart number 343 turning into a corner past red-and-white kerbs.'),
+            photo('karting-03', 'Two karts battling side by side through a corner.'),
+            photo('karting-04', 'Kart number 311 cornering, with another kart and the paddock buildings in the background.'),
             placeholderImage('Team photograph', 'images/soran-racing/team-01.jpg', undefined, '3/2'),
-            placeholderImage('Racing event', 'images/soran-racing/event-01.jpg', undefined, '3/2'),
             placeholderImage('Race results', 'images/soran-racing/results-01.jpg', undefined, '3/2'),
             placeholderImage('Sponsorship materials', 'images/soran-racing/sponsorship-01.jpg', undefined, '3/2'),
-            placeholderImage('Karting photograph', 'images/soran-racing/karting-02.jpg', undefined, '3/2'),
           ],
         },
       ],
