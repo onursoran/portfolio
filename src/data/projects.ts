@@ -338,7 +338,16 @@ const simulator: Project = {
   role: 'Independent project — sole developer',
   timeline: 'Independent',
   tags: ['Python', 'NumPy', 'Matplotlib', 'Vehicle dynamics', 'Lap-time simulation', 'Brake systems', 'Unit testing'],
-  cover: { kind: 'emoji', emoji: '📈', color: 'sky' },
+  cover: {
+    kind: 'image',
+    media: {
+      src: 'images/simulator/app-overview.jpg',
+      alt: 'Screenshot of the simulator’s browser app: input panel on the left, the Monza track map and a top view of the car with tire-force arrows on the right.',
+      width: 1200,
+      height: 750,
+      aspect: '1200/750',
+    },
+  },
   repoUrl: 'https://github.com/onursoran/vehicle-laptime-simulator',
   stats: [
     { value: '100+', label: 'Automated tests' },
@@ -382,6 +391,48 @@ const simulator: Project = {
             '**Braking systems** — conventional two-master-cylinder braking, fixed passive valves on one wheel or one side, limited independent left/right assistance, and an experimental inside-rear “fiddle brake”.',
             '**Car profiles** — an illustrative Formula Student car and a profile built from the Western Formula Racing 2026 design specification sheet.',
             '**Outputs** — lap time, speed profile, steering demand, braking zones (light, medium, hard), CSV/JSON exports and plots, through either the command line or a local browser app.',
+          ],
+        },
+      ],
+    },
+    {
+      id: 'app',
+      title: 'The App',
+      blocks: [
+        {
+          type: 'paragraph',
+          text: 'I also built a small browser app on top of the simulator, so I can pick a track and car settings, run a comparison and play the lap back without touching the command line. It runs on my own computer, and these screenshots are from a real run on Monza with all six braking systems.',
+        },
+        {
+          type: 'figure',
+          media: {
+            src: 'images/simulator/app-overview.jpg',
+            alt: 'The simulator app: comparison inputs on the left; on the right the predicted lap time, the Monza track with braking zones marked, and a top view of the car with arrows for each tire’s force.',
+            caption: 'The app after a Monza run: inputs on the left, the lap time, braking zones on the track, and live tire forces on the car.',
+            width: 1200,
+            height: 750,
+            aspect: '1200/750',
+          },
+        },
+        {
+          type: 'gallery',
+          items: [
+            {
+              src: 'images/simulator/app-results.jpg',
+              alt: 'Results panel: lap time 236.909 s, the Monza track map, a car diagram with force arrows, a playback slider and a table of load, force and grip used at each wheel.',
+              caption: 'Scrubbing through the lap: wheel loads, forces and grip used at a braking zone.',
+              width: 878,
+              height: 935,
+              aspect: '878/935',
+            },
+            {
+              src: 'images/simulator/app-comparison.jpg',
+              alt: 'Comparison panel: a table of lap times for six braking systems and a speed trace for the whole lap.',
+              caption: 'All six braking systems on the same lap, with the speed trace underneath.',
+              width: 878,
+              height: 520,
+              aspect: '878/520',
+            },
           ],
         },
       ],
