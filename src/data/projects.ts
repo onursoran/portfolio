@@ -723,11 +723,18 @@ const soranRacing: Project = {
         {
           type: 'gallery',
           items: [
+            {
+              src: 'images/soran-racing/team-01.jpg',
+              alt: 'Five Soran Racing team members kneeling on the grass in front of their karts in the paddock.',
+              caption: 'The Soran Racing team in the paddock',
+              width: 940,
+              height: 627,
+              aspect: '3/2',
+            },
             photo('karting-04', 'Onur Kaan Soran in kart number 301 cornering, with another kart and the paddock buildings in the background.', 'Onur Kaan Soran · #301'),
             photo('karting-01', 'Nicolas Hulley in kart number 399 cornering in front of a red-and-black tyre wall, with another kart close behind.', 'Nicolas Hulley · #399'),
             photo('karting-02', 'Stanley Houtorski in kart number 343 turning into a corner past red-and-white kerbs.', 'Stanley Houtorski · #343'),
             photo('karting-03', 'Stefano Rea, in the pink-visored helmet, racing wheel to wheel with another kart through a corner.', 'Stefano Rea (pink helmet)'),
-            placeholderImage('Team photograph', 'images/soran-racing/team-01.jpg', undefined, '3/2'),
             placeholderImage('Race results', 'images/soran-racing/results-01.jpg', undefined, '3/2'),
             placeholderImage('Sponsorship materials', 'images/soran-racing/sponsorship-01.jpg', undefined, '3/2'),
           ],
