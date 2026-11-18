@@ -36,6 +36,18 @@ const photo = (name: string, alt: string, caption?: string): Media => ({
   aspect: '3/2',
 });
 
+/** A page from the sponsorship proposal: 1200 px full size plus a 600 px copy for the grid. */
+const proposalPage = (name: string, alt: string, caption: string): Media => ({
+  src: `images/soran-racing/${name}.jpg`,
+  srcSet: `images/soran-racing/${name}-600.jpg 600w, images/soran-racing/${name}.jpg 1200w`,
+  sizes: '(min-width: 900px) 33vw, 100vw',
+  alt,
+  caption,
+  width: 1200,
+  height: 1553,
+  aspect: '3/4',
+});
+
 /* -------------------------------------------------------------------------- */
 /* P-01 · Western Formula Racing — Electromechanical Brake Bias System         */
 /* -------------------------------------------------------------------------- */
@@ -717,6 +729,24 @@ const soranRacing: Project = {
       ],
     },
     {
+      id: 'sponsorship',
+      title: 'Sponsorship Proposal',
+      blocks: [
+        {
+          type: 'paragraph',
+          text: 'The team approaches sponsors with a season proposal that sets out what partners receive: tiered **Bronze, Gold and Platinum** packages, social-media and on-track exposure, and planned logo placements on the drivers’ race suits. Selected pages from the 2025 proposal:',
+        },
+        {
+          type: 'gallery',
+          items: [
+            proposalPage('sponsorship-cover', 'Cover of the Soran Racing 2025 sponsorship proposal, with two team karts on track.', 'Cover'),
+            proposalPage('sponsorship-packages', 'Package options page comparing Platinum, Gold and Bronze sponsorship tiers: logo size, digital media, banner, gear, paddock access and uniform placement.', 'Package options'),
+            proposalPage('sponsorship-logo-locations', 'Race-suit diagrams from the front, side and back showing where Gold and Platinum sponsor logos are placed.', 'Logo locations on race suits'),
+          ],
+        },
+      ],
+    },
+    {
       id: 'gallery',
       title: 'Gallery',
       blocks: [
@@ -736,18 +766,15 @@ const soranRacing: Project = {
             photo('karting-02', 'Stanley Houtorski in kart number 343 turning into a corner past red-and-white kerbs.', 'Stanley Houtorski · #343'),
             photo('karting-03', 'Stefano Rea, in the pink-visored helmet, racing wheel to wheel with another kart through a corner.', 'Stefano Rea (pink helmet)'),
             placeholderImage('Race results', 'images/soran-racing/results-01.jpg', undefined, '3/2'),
-            placeholderImage('Sponsorship materials', 'images/soran-racing/sponsorship-01.jpg', undefined, '3/2'),
           ],
         },
       ],
     },
-    // Instagram post embed. Disabled until embeds are enabled on the Instagram account
-    // (Instagram currently returns "link may be broken" for this post). To turn it on, uncomment:
-    // {
-    //   id: 'instagram',
-    //   title: 'On Instagram',
-    //   blocks: [{ type: 'instagram', postId: 'DWUJhZKlbcV' }],
-    // },
+    {
+      id: 'instagram',
+      title: 'On Instagram',
+      blocks: [{ type: 'instagram', postId: 'DWUJhZKlbcV', caption: 'Soran Racing’s 2026 driver lineup announcement.' }],
+    },
   ],
 };
 

@@ -1,44 +1,53 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-declare global {
-  interface Window {
-    instgrm?: { Embeds: { process(): void } };
-  }
-}
-
-const SCRIPT_SRC = 'https://www.instagram.com/embed.js';
-
-/** Loads Instagram's embed script once, then asks it to render any new embeds. */
-function processEmbeds() {
-  if (window.instgrm) {
-    window.instgrm.Embeds.process();
-    return;
-  }
-  if (!document.querySelector(`script[src="${SCRIPT_SRC}"]`)) {
-    const script = document.createElement('script');
-    script.src = SCRIPT_SRC;
-    script.async = true;
-    document.body.appendChild(script);
-  }
-}
+/** Height used until Instagram reports the post's real height (fits a 4:5 photo with caption). */
+const DEFAULT_HEIGHT = 980;
 
 /**
- * Official Instagram post embed. Until the script runs (or if it is blocked),
- * the blockquote shows a plain link to the post.
+ * Instagram post embed, loaded directly in an iframe (no third-party script on the page).
+ * Instagram's embed page posts a MEASURE message with its content height, which we apply.
  */
 export function InstagramEmbed({ postId, caption }: { postId: string; caption?: string }) {
   const url = `https://www.instagram.com/p/${postId}/`;
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const [height, setHeight] = useState(DEFAULT_HEIGHT);
+  // Same query parameters Instagram's own embed.js sends (version, width, referring page).
+  const embedSrc =
+    `${url}embed/captioned/?cr=1&v=14&wp=540` +
+    `&rd=${encodeURIComponent(window.location.origin)}&rp=${encodeURIComponent(window.location.pathname)}`;
 
-  useEffect(processEmbeds, [postId]);
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== 'https://www.instagram.com') return;
+      if (event.source !== frameRef.current?.contentWindow) return;
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        const h = Number(data?.details?.height);
+        if (data?.type === 'MEASURE' && h > 100) setHeight(Math.ceil(h));
+      } catch {
+        /* not an Instagram measure message */
+      }
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
 
   return (
     <figure className="instagram-embed">
-      <blockquote className="instagram-media" data-instgrm-permalink={url} data-instgrm-version="14">
+      <iframe
+        ref={frameRef}
+        src={embedSrc}
+        title="Soran Racing Instagram post"
+        height={height}
+        scrolling="no"
+        allowFullScreen
+      />
+      <figcaption className="figure__caption">
+        {caption && <>{caption} </>}
         <a href={url} target="_blank" rel="noopener noreferrer">
-          View this post on Instagram
+          View on Instagram
         </a>
-      </blockquote>
-      {caption && <figcaption className="figure__caption">{caption}</figcaption>}
+      </figcaption>
     </figure>
   );
 }
