@@ -25,8 +25,9 @@ const placeholderImage = (
 });
 
 /** A Soran Racing photo: 2000 px full size (lightbox) plus a 900 px copy for the grid. */
-const photo = (name: string, alt: string): Media => ({
+const photo = (name: string, alt: string, caption?: string): Media => ({
   src: `images/soran-racing/${name}.jpg`,
+  caption,
   srcSet: `images/soran-racing/${name}-900.jpg 900w, images/soran-racing/${name}.jpg 2000w`,
   sizes: '(min-width: 900px) 33vw, 100vw',
   alt,
@@ -641,6 +642,16 @@ const soranRacing: Project = {
           type: 'paragraph',
           text: 'Soran Racing is a competitive kart racing team I founded and lead as Team Principal. The team competes in Canadian regional and national karting championships, and my role covers the organisation behind the drivers: building the team, funding it, and making sure it operates well on race weekends.',
         },
+        {
+          type: 'links',
+          items: [
+            {
+              label: 'Soran Racing on Instagram',
+              href: 'https://www.instagram.com/soranracing/',
+              description: 'Race-weekend photos and team updates.',
+            },
+          ],
+        },
       ],
     },
     {
@@ -712,10 +723,10 @@ const soranRacing: Project = {
         {
           type: 'gallery',
           items: [
-            photo('karting-01', 'Kart number 399 cornering in front of a red-and-black tyre wall, with another kart close behind.'),
-            photo('karting-02', 'Kart number 343 turning into a corner past red-and-white kerbs.'),
-            photo('karting-03', 'Two karts battling side by side through a corner.'),
-            photo('karting-04', 'Kart number 311 cornering, with another kart and the paddock buildings in the background.'),
+            photo('karting-04', 'Onur Kaan Soran in kart number 301 cornering, with another kart and the paddock buildings in the background.', 'Onur Kaan Soran · #301'),
+            photo('karting-01', 'Nicolas Hulley in kart number 399 cornering in front of a red-and-black tyre wall, with another kart close behind.', 'Nicolas Hulley · #399'),
+            photo('karting-02', 'Stanley Houtorski in kart number 343 turning into a corner past red-and-white kerbs.', 'Stanley Houtorski · #343'),
+            photo('karting-03', 'Stefano Rea, in the pink-visored helmet, racing wheel to wheel with another kart through a corner.', 'Stefano Rea (pink helmet)'),
             placeholderImage('Team photograph', 'images/soran-racing/team-01.jpg', undefined, '3/2'),
             placeholderImage('Race results', 'images/soran-racing/results-01.jpg', undefined, '3/2'),
             placeholderImage('Sponsorship materials', 'images/soran-racing/sponsorship-01.jpg', undefined, '3/2'),
