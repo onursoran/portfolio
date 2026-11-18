@@ -89,6 +89,8 @@ export type Block =
   | { type: 'pipeline'; steps: PipelineStep[] }
   | { type: 'diagram'; visual: VisualId; caption?: string }
   | { type: 'demo'; demo: 'friction-circle' }
+  /** Instagram post embed; postId is the code in instagram.com/p/<postId>/. */
+  | { type: 'instagram'; postId: string; caption?: string }
   | { type: 'related'; slug: string; text: string };
 
 export interface CaseStudySection {

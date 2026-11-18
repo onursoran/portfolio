@@ -8,6 +8,7 @@ import { plainMath, renderInline, renderMath } from '../../lib/format';
 import { Figure } from '../media/Figure';
 import { Gallery } from '../media/Gallery';
 import { FrictionCircleDemo } from '../demo/FrictionCircleDemo';
+import { InstagramEmbed } from './InstagramEmbed';
 import { ProjectVisual } from '../visuals/ProjectVisual';
 import { StatRow } from '../ui/Primitives';
 
@@ -219,6 +220,9 @@ export function BlockRenderer({ block }: { block: Block }) {
 
     case 'demo':
       return <FrictionCircleDemo />;
+
+    case 'instagram':
+      return <InstagramEmbed postId={block.postId} caption={block.caption} />;
 
     case 'related': {
       const project = getProject(block.slug);

@@ -1924,6 +1924,26 @@ a.link-list__item:hover {
   margin: 0;
 }
 
+/* Instagram embed: Instagram's script swaps the blockquote for a sized iframe. */
+.instagram-embed {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  max-width: 540px;
+}
+
+.instagram-embed .instagram-media {
+  margin: 0 !important;
+  min-width: 0 !important;
+  width: 100%;
+}
+
+.instagram-embed blockquote.instagram-media {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
 .diagram-figure__frame {
   padding: clamp(0.75rem, 2vw, 1.5rem);
   border: 1px solid var(--line);

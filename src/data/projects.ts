@@ -741,6 +741,13 @@ const soranRacing: Project = {
         },
       ],
     },
+    // Instagram post embed. Disabled until embeds are enabled on the Instagram account
+    // (Instagram currently returns "link may be broken" for this post). To turn it on, uncomment:
+    // {
+    //   id: 'instagram',
+    //   title: 'On Instagram',
+    //   blocks: [{ type: 'instagram', postId: 'DWUJhZKlbcV' }],
+    // },
   ],
 };
 
