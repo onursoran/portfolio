@@ -13,7 +13,7 @@ I’m looking for engineering internships in **automotive, motorsport, aerospace
 ## Projects
 
 ### [Vehicle Dynamics & Lap-Time Simulator](https://onursoran.github.io/portfolio/projects/vehicle-dynamics-simulator)
-A Python lap-time simulator with a four-wheel vehicle model and combined tire-grip limits, built to compare braking strategies (fixed bias, passive valves and independent wheel braking) on synthetic tracks and real circuits such as Monza. Includes a 112-test suite with analytical checks.
+A Python lap-time simulator with a four-wheel vehicle model and combined tire-grip limits, built to compare braking strategies (fixed bias, passive valves and independent wheel braking) on synthetic tracks and real circuits such as Monza. Includes an automated test suite with analytical checks. **[Source code](https://github.com/onursoran/vehicle-laptime-simulator)**
 `Python` `NumPy` `Matplotlib` `Vehicle dynamics`
 
 ### [Electromechanical Brake Bias System](https://onursoran.github.io/portfolio/projects/electromechanical-brake-bias) · Western Formula Racing

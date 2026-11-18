@@ -383,28 +383,27 @@ const simulator: Project = {
   status: {
     label: 'Developed',
     tone: 'complete',
-    note: 'Source repository is currently private.',
+    note: 'Source code is public on GitHub.',
   },
   role: 'Independent project — sole developer',
   timeline: 'Independent',
   tags: ['Python', 'NumPy', 'Matplotlib', 'Vehicle dynamics', 'Lap-time simulation', 'Brake systems', 'Unit testing'],
   cover: { kind: 'visual', visual: 'friction-circle', label: 'Friction-circle schematic' },
-  /** Add the GitHub URL when the repository is public. */
-  repoUrl: '',
+  repoUrl: 'https://github.com/onursoran/vehicle-laptime-simulator',
   stats: [
-    { value: '112', label: 'Automated tests' },
+    { value: '100+', label: 'Automated tests' },
     { value: '6', label: 'Braking systems compared' },
     { value: '3', label: 'Real circuits' },
   ],
   contributionSummary:
-    'Designed and implemented the simulator independently — vehicle and tire models, equilibrium and lap-time solvers, braking-system models, a local browser app, plots and a 112-test suite.',
+    'Designed and implemented the simulator independently — vehicle and tire models, equilibrium and lap-time solvers, braking-system models, a local browser app, plots and a test suite of over 100 tests.',
   contributions: [
     'Designed and implemented the simulator independently in Python (about 3,200 lines plus tests).',
     'Built a four-wheel vehicle model with longitudinal and lateral load transfer, aerodynamic downforce and combined tire-grip limits.',
     'Wrote a quasi-steady equilibrium solver that balances forces and yaw moment at every point on the lap.',
     'Implemented a closed-lap speed-profile solver for synthetic tracks and real circuit layouts (Monza, Montreal, Barcelona-Catalunya).',
     'Modeled and compared six braking systems, including passive hydraulic valves and limited independent wheel braking.',
-    'Built a local browser app to run comparisons and play back laps, and a 112-test suite including analytical checks.',
+    'Built a local browser app to run comparisons and play back laps, and a suite of over 100 automated tests including analytical checks.',
   ],
   sections: [
     {
@@ -579,7 +578,7 @@ const simulator: Project = {
         {
           type: 'list',
           items: [
-            '**112 automated tests**, all passing: an analytical constant-radius circle lap, force and yaw closure, load conservation, and acceleration, braking and closed-lap constraints.',
+            '**Over 100 automated tests**, all passing: an analytical constant-radius circle lap, force and yaw closure, load conservation, and acceleration, braking and closed-lap constraints.',
             '**Consistency checks**: zero assistance reproduces the conventional baseline exactly, and mirrored tracks with swapped valves give matching results.',
             '**Result audit**: a validation script re-checks exported laps against the current source fingerprint and declared limits.',
             '**Mesh refinement**: tracks re-run at 2 m, 1 m and 0.5 m spacing to check numerical sensitivity.',
@@ -638,8 +637,8 @@ const simulator: Project = {
           items: [
             {
               label: 'Source code on GitHub',
-              href: '',
-              description: 'The repository is currently private.',
+              href: 'https://github.com/onursoran/vehicle-laptime-simulator',
+              description: 'Public version with the illustrative car profile; team-specific car data is kept private.',
             },
           ],
         },
