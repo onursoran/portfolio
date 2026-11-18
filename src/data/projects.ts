@@ -389,7 +389,7 @@ const simulator: Project = {
             '**Tracks** — synthetic oval, technical loop, figure-eight and circle, plus approximate 2020 layouts of **Monza, Montreal and Barcelona-Catalunya** from the open TUM racetrack database, smoothed with a periodic cubic spline.',
             '**Vehicle** — four-wheel load transfer, speed-dependent downforce, rear-wheel-drive force and power limits, steering and sideslip limits, and a check that the car body stays within the road corridor.',
             '**Braking systems** — conventional two-master-cylinder braking, fixed passive valves on one wheel or one side, limited independent left/right assistance, and an experimental inside-rear “fiddle brake”.',
-            '**Car profiles** — an illustrative Formula Student car and a profile built from the Western Formula Racing 2026 design specification sheet.',
+            '**Car profiles** — an illustrative Formula Student car, plus a profile built from my team’s car data (kept private, so the public code only includes the illustrative car).',
             '**Outputs** — lap time, speed profile, steering demand, braking zones (light, medium, hard), CSV/JSON exports and plots, through either the command line or a local browser app.',
           ],
         },
